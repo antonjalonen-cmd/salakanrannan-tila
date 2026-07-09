@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salakanrannan tila – Kaninliha ja taimet, Ruokolahti</title>
+  <meta name="description" content="Salakanrannan tila kasvattaa laadukasta kaninlihaa ja taimia suoraan tilalta Ruokolahdelta, Etelä-Karjalasta. Oivallinen-elintarvikearviointi." />
+  <meta property="og:title" content="Salakanrannan tila" />
+  <meta property="og:description" content="Kaninlihaa ja taimia suoraan omalta tilalta Etelä-Karjalasta." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================
+       TOKENS
+    ============================ */
+    :root {
+      --earth:    #2c1e18;
+      --timber:   #8B5E3C;
+      --rabbit:   #8a8078;
+      --forest:   #3a6028;
+      --cream:    #f4f0e8;
+      --cream-dk: #e8e2d4;
+      --serif:    'Bodoni Moda', Georgia, serif;
+      --sans:     'Raleway', system-ui, sans-serif;
+    }
+
+    /* ============================
+       RESET / BASE
+    ============================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--earth);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================
+       I18N
+    ============================ */
+    body.lang-fi .lang-sv,
+    body.lang-fi .lang-en { display: none; }
+    body.lang-sv .lang-fi,
+    body.lang-sv .lang-en { display: none; }
+    body.lang-en .lang-fi,
+    body.lang-en .lang-sv { display: none; }
+
+    /* ============================
+       VERTICAL NAV — right-side strip (FIRST USE)
+    ============================ */
+    .vert-nav {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.25rem 0;
+      background: var(--earth);
+      border-radius: 10px 0 0 10px;
+      z-index: 200;
+      width: 2.4rem;
+    }
+    .vert-nav a {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      color: rgba(244,240,232,0.65);
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 0.6rem;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .vert-nav a:hover { color: var(--cream); }
+    .vert-nav .vn-div {
+      width: 1px;
+      height: 1.25rem;
+      background: rgba(244,240,232,0.12);
+      margin: 0.1rem auto;
+    }
+    .vert-nav .vn-lang {
+      writing-mode: vertical-rl;
+      font-family: var(--sans);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.35);
+      padding: 0.6rem 0.6rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .vert-nav .vn-lang.active { color: var(--cream); }
+
+    /* ============================
+       MOBILE NAV
+    ============================ */
+    .mob-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--cream);
+      padding: 1rem 1.25rem;
+      z-index: 200;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(44,30,24,0.08);
+    }
+    .mob-site-title {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--earth);
+    }
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 2rem;
+      height: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      height: 1.5px;
+      background: var(--earth);
+      transition: all 0.3s;
+    }
+    .mob-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--earth);
+      z-index: 300;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.75rem;
+    }
+    .mob-overlay.open { display: flex; }
+    .mob-overlay a {
+      font-family: var(--serif);
+      font-size: clamp(1.75rem, 7vw, 3rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--cream);
+      transition: color 0.2s;
+    }
+    .mob-overlay a:hover { color: var(--timber); }
+    .mob-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      font-size: 2rem;
+      color: var(--cream);
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .mob-lang-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+    .mob-lang-row button {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      color: rgba(244,240,232,0.35);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .mob-lang-row button.active { color: var(--cream); }
+
+    /* ============================
+       HERO — TRI-ZONE (FIRST USE)
+    ============================ */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      background: var(--earth);
+    }
+    .hero-top {
+      flex: 0 0 auto;
+      padding: 4.5rem 3.5rem 2rem;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.4);
+      margin-bottom: 0.9rem;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3.25rem, 9.5vw, 9.5rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+    }
+    .hero-photo-zone {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: hidden;
+      min-height: 36vh;
+    }
+    .hero-photo-zone img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+    }
+    .hero-bottom {
+      flex: 0 0 auto;
+      padding: 2.5rem 3.5rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2.5rem;
+    }
+    .hero-tagline {
+      font-family: var(--sans);
+      font-size: clamp(0.875rem, 1.4vw, 1.05rem);
+      font-weight: 300;
+      color: rgba(244,240,232,0.7);
+      line-height: 1.75;
+      max-width: 30rem;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      border: 1px solid rgba(244,240,232,0.3);
+      padding: 0.9rem 1.75rem;
+      transition: border-color 0.25s;
+      white-space: nowrap;
+    }
+    .hero-cta:hover { border-color: rgba(244,240,232,0.8); }
+
+    /* ============================
+       STATS STRIP
+    ============================ */
+    .stats-strip {
+      background: var(--timber);
+      padding: 2rem 3.5rem;
+      display: flex;
+      gap: 4rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--cream);
+      display: block;
+    }
+    .stat-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.55);
+      display: block;
+      margin-top: 0.2rem;
+    }
+
+    /* ============================
+       GENERIC SECTION
+    ============================ */
+    section { padding: 6rem 3.5rem; }
+
+    .sec-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rabbit);
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+    }
+    h3 {
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 2.5vw, 2rem);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--earth);
+      margin-bottom: 0.9rem;
+    }
+    p {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.82;
+      color: rgba(44,30,24,0.78);
+      max-width: 58ch;
+    }
+
+    /* ============================
+       ABOUT (2-col)
+    ============================ */
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-photo {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .about-text p + p { margin-top: 1.25rem; }
+
+    /* ============================
+       PRODUCTS
+    ============================ */
+    .products {
+      background: var(--earth);
+    }
+    .products .sec-label { color: rgba(244,240,232,0.4); }
+    .products h2 { color: var(--cream); }
+    .products h3 { color: var(--cream); }
+    .products p { color: rgba(244,240,232,0.72); }
+
+    .products-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3.5rem;
+    }
+    .prod-card {
+      border-top: 1px solid rgba(244,240,232,0.12);
+      padding-top: 2rem;
+    }
+    .prod-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .price-block { margin-top: 1.25rem; }
+    .price-num {
+      font-family: var(--serif);
+      font-size: 1.65rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--cream);
+      display: block;
+      border-bottom: 2px solid var(--timber);
+      padding-bottom: 0.2rem;
+      display: inline-block;
+    }
+    .price-note {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(244,240,232,0.45);
+      margin-top: 0.35rem;
+      display: block;
+    }
+    .price-block + .price-block { margin-top: 1rem; }
+    .prod-photo {
+      margin-top: 2rem;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+    .prod-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .prod-photo:hover img { transform: scale(1.04); }
+
+    /* ============================
+       ORDER STEPS — signature component
+    ============================ */
+    .order { background: var(--cream-dk); }
+    .steps-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    .step { display: flex; flex-direction: column; gap: 0.9rem; }
+    .step-n {
+      font-family: var(--serif);
+      font-size: 4.5rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--timber);
+      line-height: 1;
+      opacity: 0.6;
+    }
+    .step h4 {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--earth);
+    }
+    .step p { font-size: 0.9rem; max-width: 24ch; }
+
+    /* ============================
+       QUALITY PILLARS
+    ============================ */
+    .quality { background: var(--forest); }
+    .quality .sec-label { color: rgba(244,240,232,0.38); }
+    .quality h2 { color: var(--cream); }
+    .pillars-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(244,240,232,0.12);
+      padding-top: 3rem;
+    }
+    .pillar-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+    .pillar p {
+      font-size: 0.9rem;
+      color: rgba(244,240,232,0.7);
+      max-width: 26ch;
+    }
+    .pillar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.45);
+    }
+    .pillar-badge::before {
+      content: '';
+      width: 1.25rem;
+      height: 1px;
+      background: rgba(244,240,232,0.3);
+      flex-shrink: 0;
+    }
+
+    /* ============================
+       GALLERY STRIP
+    ============================ */
+    .gallery { padding: 0; }
+    .gallery-strip {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      height: 52vh;
+    }
+    .gallery-strip > div {
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .gallery-strip > div:hover img { transform: scale(1.05); }
+
+    /* ============================
+       CONTACT
+    ============================ */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 2.25rem; }
+    .c-label {
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--rabbit);
+      margin-bottom: 0.4rem;
+    }
+    .c-val {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--earth);
+      line-height: 1.55;
+    }
+    .c-val a { color: var(--timber); transition: color 0.2s; }
+    .c-val a:hover { color: var(--earth); }
+    .call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: var(--earth);
+      color: var(--cream);
+      padding: 1rem 2rem;
+      transition: background 0.25s;
+      margin-top: 0.5rem;
+    }
+    .call-btn:hover { background: var(--timber); }
+    .contact-map {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .contact-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(25%);
+    }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    footer {
+      background: var(--earth);
+      padding: 3rem 3.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer-name {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--cream);
+    }
+    .footer-sub {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      color: rgba(244,240,232,0.38);
+      margin-top: 0.35rem;
+    }
+    .footer-meta {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      color: rgba(244,240,232,0.38);
+      text-align: right;
+      line-height: 1.9;
+    }
+    .footer-meta a { color: rgba(244,240,232,0.38); transition: color 0.2s; }
+    .footer-meta a:hover { color: rgba(244,240,232,0.65); }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 900px) {
+      .vert-nav { display: none; }
+      .mob-nav { display: flex; }
+
+      section { padding: 4rem 1.5rem; }
+      .stats-strip { padding: 1.5rem; gap: 2rem; }
+
+      .hero-top { padding: 5.5rem 1.5rem 1.5rem; }
+      .hero-bottom { padding: 1.5rem 1.5rem 2.5rem; flex-direction: column; align-items: flex-start; }
+      .hero-title { font-size: clamp(2.75rem, 14vw, 5.5rem); }
+
+      .about-wrap,
+      .products-wrap,
+      .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .steps-wrap,
+      .pillars-wrap { grid-template-columns: 1fr; gap: 2rem; }
+
+      .gallery-strip { grid-template-columns: 1fr; height: auto; }
+      .gallery-strip > div { height: 60vw; }
+
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+      .footer-meta { text-align: left; }
+    }
+
+    /* ============================
+       SCROLL FADE-IN
+    ============================ */
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade.in { opacity: 1; transform: none; }
+    .fade-d1 { transition-delay: 0.1s; }
+    .fade-d2 { transition-delay: 0.2s; }
+  </style>
+</head>
+<body class="lang-fi">
+
+<!-- VERTICAL NAV — right-side strip -->
+<nav class="vert-nav" aria-label="Sivunavigointi">
+  <a href="#tila"><span class="lang-fi">Tila</span><span class="lang-sv">Gård</span><span class="lang-en">Farm</span></a>
+  <div class="vn-div"></div>
+  <a href="#tuotteet"><span class="lang-fi">Tuotteet</span><span class="lang-sv">Produkter</span><span class="lang-en">Products</span></a>
+  <div class="vn-div"></div>
+  <a href="#tilaus"><span class="lang-fi">Tilaus</span><span class="lang-sv">Beställ</span><span class="lang-en">Order</span></a>
+  <div class="vn-div"></div>
+  <a href="#yhteystiedot"><span class="lang-fi">Yhteys</span><span class="lang-sv">Kontakt</span><span class="lang-en">Contact</span></a>
+  <div class="vn-div" style="height:2rem;"></div>
+  <button class="vn-lang active" id="vn-fi" onclick="setLang('fi')">FI</button>
+  <button class="vn-lang" id="vn-sv" onclick="setLang('sv')">SV</button>
+  <button class="vn-lang" id="vn-en" onclick="setLang('en')">EN</button>
+</nav>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav">
+  <span class="mob-site-title">Salakanrannan tila</span>
+  <button class="hamburger" onclick="openMob()" aria-label="Avaa valikko">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="mob-overlay" id="mob-overlay" role="dialog" aria-modal="true">
+  <button class="mob-close" onclick="closeMob()" aria-label="Sulje">&times;</button>
+  <a href="#tila" onclick="closeMob()"><span class="lang-fi">Tila</span><span class="lang-sv">Gård</span><span class="lang-en">Farm</span></a>
+  <a href="#tuotteet" onclick="closeMob()"><span class="lang-fi">Tuotteet</span><span class="lang-sv">Produkter</span><span class="lang-en">Products</span></a>
+  <a href="#tilaus" onclick="closeMob()"><span class="lang-fi">Tilaus</span><span class="lang-sv">Beställ</span><span class="lang-en">Order</span></a>
+  <a href="#yhteystiedot" onclick="closeMob()"><span class="lang-fi">Yhteystiedot</span><span class="lang-sv">Kontakt</span><span class="lang-en">Contact</span></a>
+  <div class="mob-lang-row">
+    <button id="mob-fi" class="active" onclick="setLang('fi'); closeMob()">FI</button>
+    <button id="mob-sv" onclick="setLang('sv'); closeMob()">SV</button>
+    <button id="mob-en" onclick="setLang('en'); closeMob()">EN</button>
+  </div>
+</div>
+
+<!-- ==============================
+     HERO — TRI-ZONE
+============================== -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-top">
+    <p class="hero-eyebrow lang-fi">Ruokolahti &middot; Etelä-Karjala &middot; Suoramyynti</p>
+    <p class="hero-eyebrow lang-sv">Ruokolax &middot; Södra Karelen &middot; Direktförsäljning</p>
+    <p class="hero-eyebrow lang-en">Ruokolahti &middot; South Karelia &middot; Direct sales</p>
+    <h1 class="hero-title">Salakanrannan<br />tila</h1>
+  </div>
+  <div class="hero-photo-zone">
+    <img src="images/gallery1.jpg" alt="Salakanrannan tila, Ruokolahti" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="hero-bottom">
+    <p class="hero-tagline lang-fi">Kaninlihaa ja taimia suoraan omalta tilaltamme, kasvattajan käsistä sinun pöytääsi ja puutarhaasi.</p>
+    <p class="hero-tagline lang-sv">Kaninkött och plantor direkt från vår gård, från odlarens händer till ditt bord och din trädgård.</p>
+    <p class="hero-tagline lang-en">Rabbit meat and seedlings straight from our farm, from the grower's hands to your table and garden.</p>
+    <a href="#tuotteet" class="hero-cta">
+      <span class="lang-fi">Tutustu tuotteisiin</span>
+      <span class="lang-sv">Se produkter</span>
+      <span class="lang-en">View products</span>
+      &rarr;
+    </a>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div>
+    <span class="stat-num">22,50 €</span>
+    <span class="stat-label lang-fi">kilolta, kaninliha</span>
+    <span class="stat-label lang-sv">per kilo, kaninkött</span>
+    <span class="stat-label lang-en">per kg, rabbit meat</span>
+  </div>
+  <div>
+    <span class="stat-num">Oivallinen</span>
+    <span class="stat-label lang-fi">Elintarvikevalvonnan arviointi</span>
+    <span class="stat-label lang-sv">Betyg av livsmedelstillsynen</span>
+    <span class="stat-label lang-en">Food safety inspection rating</span>
+  </div>
+  <div>
+    <span class="stat-num">Suoramyynti</span>
+    <span class="stat-label lang-fi">Suoraan tilalta, ei välikäsiä</span>
+    <span class="stat-label lang-sv">Direkt från gården, inga mellanhänder</span>
+    <span class="stat-label lang-en">Direct from farm, no middlemen</span>
+  </div>
+</div>
+
+<!-- ==============================
+     ABOUT
+============================== -->
+<section id="tila">
+  <div class="about-wrap fade">
+    <div class="about-text">
+      <p class="sec-label lang-fi">Tila</p>
+      <p class="sec-label lang-sv">Gården</p>
+      <p class="sec-label lang-en">The Farm</p>
+      <h2 class="lang-fi">Pieni tila, tarkka kädenjälki</h2>
+      <h2 class="lang-sv">Liten gård, noggrant hantverk</h2>
+      <h2 class="lang-en">Small farm, precise craft</h2>
+      <p class="lang-fi">Salakanrannan tila sijaitsee Ruokolahden Pohja-Lankilassa, Saimaan rantamaisemissa ja etelä-karjalaisten metsien sylissä. Olemme pienikokoinen perheyritys, joka kasvattaa lihakaneja ja taimia omilla tavoillamme, omassa tahdissamme.</p>
+      <p class="lang-sv">Salakanrannan tila ligger i Pohja-Lankila, Ruokolax, omgiven av Saimens strandlandskap och södra Karelens skogar. Vi är ett litet familjeföretag som föder upp köttkaniners och odlar plantor på vårt eget sätt, i vår egen takt.</p>
+      <p class="lang-en">Salakanrannan tila is located in Pohja-Lankila, Ruokolahti, nestled among the shores of Lake Saimaa and South Karelia's forests. We are a small family business raising meat rabbits and growing seedlings in our own way, at our own pace.</p>
+      <p class="lang-fi" style="margin-top:1.25rem;">Eläinten hyvinvointi ja puhtaat kasvuolosuhteet ovat meille itsestäänselvyys, ei markkinointiteksti. Haluamme, että jokainen asiakas voi luottaa täysin siihen, mitä hän tuo pöytään.</p>
+      <p class="lang-sv" style="margin-top:1.25rem;">Djurens välmående och rena tillväxtförhållanden är självklarheter för oss, inte marknadsföringstext. Vi vill att varje kund kan lita fullt ut på vad de tar med till bordet.</p>
+      <p class="lang-en" style="margin-top:1.25rem;">Animal welfare and clean growing conditions are a given for us, not a marketing slogan. We want every customer to fully trust what they bring to the table.</p>
+    </div>
+    <div class="about-photo">
+      <img src="images/logo.jpg" alt="Salakanrannan tila" />
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     PRODUCTS
+============================== -->
+<section id="tuotteet" class="products">
+  <p class="sec-label lang-fi">Tuotteet</p>
+  <p class="sec-label lang-sv">Produkter</p>
+  <p class="sec-label lang-en">Products</p>
+  <h2 class="lang-fi">Mitä tilaltamme saat</h2>
+  <h2 class="lang-sv">Vad du kan beställa</h2>
+  <h2 class="lang-en">What you get from us</h2>
+
+  <div class="products-wrap">
+    <!-- Rabbit -->
+    <div class="prod-card fade">
+      <span class="prod-icon" aria-hidden="true">&#x1F430;</span>
+      <h3 class="lang-fi">Kaninliha</h3>
+      <h3 class="lang-sv">Kaninkött</h3>
+      <h3 class="lang-en">Rabbit meat</h3>
+      <p class="lang-fi">Tilallisesti kasvatettua, tuoretta ja pakastettua kaninlihaa suoraan omilta tarhoiltamme. Myymme kanin kokonaisena tai osina, sekä kanin maksaa erikseen.</p>
+      <p class="lang-sv">Gårdsuppfödd, färsk och fryst kaninkött direkt från våra egna burar. Vi säljer kaninen hel eller i delar, samt kaninglever separat.</p>
+      <p class="lang-en">Farm-raised, fresh and frozen rabbit meat direct from our own hutches. We sell rabbit whole or in pieces, as well as rabbit liver separately.</p>
+      <div class="price-block">
+        <span class="price-num">22,50 €/kg</span>
+        <span class="price-note lang-fi">Kokonainen kani tai osina &nbsp;&middot;&nbsp; Tuore tai pakastettu</span>
+        <span class="price-note lang-sv">Hel kanin eller i delar &nbsp;&middot;&nbsp; Färsk eller fryst</span>
+        <span class="price-note lang-en">Whole rabbit or in pieces &nbsp;&middot;&nbsp; Fresh or frozen</span>
+      </div>
+      <div class="price-block">
+        <span class="price-num">18,00 €/kg</span>
+        <span class="price-note lang-fi">Kanin maksa</span>
+        <span class="price-note lang-sv">Kaninglever</span>
+        <span class="price-note lang-en">Rabbit liver</span>
+      </div>
+      <div class="prod-photo">
+        <img src="images/gallery2.jpg" alt="Kaninliha Salakanrannan tilalta" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Seedlings -->
+    <div class="prod-card fade fade-d1">
+      <span class="prod-icon" aria-hidden="true">&#x1F331;</span>
+      <h3 class="lang-fi">Taimet</h3>
+      <h3 class="lang-sv">Plantor</h3>
+      <h3 class="lang-en">Seedlings</h3>
+      <p class="lang-fi">Kasvatamme taimia myyntiin kasvukaudella. Valikoima vaihtelee sesongin mukaan. Taimet soveltuvat sekä omaan puutarhaan että pienimuotoiseen viljelyyn.</p>
+      <p class="lang-sv">Vi odlar plantor för försäljning under odlingssäsongen. Sortimentet varierar beroende på säsong. Plantorna lämpar sig både för den egna trädgården och för småskalig odling.</p>
+      <p class="lang-en">We grow seedlings for sale during the growing season. The selection varies with the season. The seedlings are suitable for home gardens and small-scale cultivation alike.</p>
+      <p class="lang-fi" style="margin-top:1.25rem;">Kysy ajankohtaisesta tarjonnasta suoraan meiltä. Taimet myydään noutokaupalla tilalta.</p>
+      <p class="lang-sv" style="margin-top:1.25rem;">Fråga oss direkt om aktuellt utbud. Plantorna säljs för upphämtning från gården.</p>
+      <p class="lang-en" style="margin-top:1.25rem;">Ask us directly about current availability. Seedlings are sold for collection from the farm.</p>
+      <div class="prod-photo" style="margin-top:2rem;">
+        <img src="images/gallery3.jpg" alt="Taimet Salakanrannan tilalta" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     ORDER STEPS — signature component
+============================== -->
+<section id="tilaus" class="order">
+  <p class="sec-label lang-fi">Tilaaminen</p>
+  <p class="sec-label lang-sv">Beställning</p>
+  <p class="sec-label lang-en">Ordering</p>
+  <h2 class="lang-fi">Kolme askelta tilaukseesi</h2>
+  <h2 class="lang-sv">Tre steg till din beställning</h2>
+  <h2 class="lang-en">Three steps to your order</h2>
+
+  <div class="steps-wrap">
+    <div class="step fade">
+      <span class="step-n">01</span>
+      <h4 class="lang-fi">Soita tilaus</h4>
+      <h4 class="lang-sv">Ring din beställning</h4>
+      <h4 class="lang-en">Call your order in</h4>
+      <p class="lang-fi">Soita numeroon <a href="tel:+358504309337" style="color:var(--timber);">+358 50 430 9337</a>. Kerromme saatavilla olevat tuotteet ja sovimme toimitustavan.</p>
+      <p class="lang-sv">Ring <a href="tel:+358504309337" style="color:var(--timber);">+358 50 430 9337</a>. Vi berättar vilka produkter som finns och vi bestämmer leveranssättet.</p>
+      <p class="lang-en">Call <a href="tel:+358504309337" style="color:var(--timber);">+358 50 430 9337</a>. We will tell you what is available and agree on delivery method.</p>
+    </div>
+    <div class="step fade fade-d1">
+      <span class="step-n">02</span>
+      <h4 class="lang-fi">Sovitaan noutoaika</h4>
+      <h4 class="lang-sv">Bestäm upphämtningstid</h4>
+      <h4 class="lang-en">Agree on pickup time</h4>
+      <p class="lang-fi">Tuore liha haetaan tilauspäivänä. Pakastettu on valmiina joustavasti, sopii sinulle parhaiten.</p>
+      <p class="lang-sv">Färskt kött hämtas upp på beställningsdagen. Fryst är redo flexibelt, vid en tid som passar dig bäst.</p>
+      <p class="lang-en">Fresh meat is collected on the day of order. Frozen is ready flexibly, at a time that suits you best.</p>
+    </div>
+    <div class="step fade fade-d2">
+      <span class="step-n">03</span>
+      <h4 class="lang-fi">Nouto tilalta</h4>
+      <h4 class="lang-sv">Hämtning från gården</h4>
+      <h4 class="lang-en">Collect from the farm</h4>
+      <p class="lang-fi">Tule hakemaan tuotteesi osoitteesta Salakantie 160, 56440 Pohja-Lankila. Tervetuloa tutustumaan tilaelämään.</p>
+      <p class="lang-sv">Hämta dina produkter på Salakantie 160, 56440 Pohja-Lankila. Välkommen att bekanta dig med gårdslivet.</p>
+      <p class="lang-en">Collect your products from Salakantie 160, 56440 Pohja-Lankila. Welcome to experience life on the farm.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     QUALITY PILLARS
+============================== -->
+<section class="quality">
+  <p class="sec-label lang-fi">Laatu</p>
+  <p class="sec-label lang-sv">Kvalitet</p>
+  <p class="sec-label lang-en">Quality</p>
+  <h2 class="lang-fi">Miksi valita Salakanrannan tila</h2>
+  <h2 class="lang-sv">Varför välja Salakanrannan tila</h2>
+  <h2 class="lang-en">Why choose Salakanrannan tila</h2>
+  <div class="pillars-wrap fade">
+    <div class="pillar">
+      <p class="pillar-title lang-fi">Suoramyynti</p>
+      <p class="pillar-title lang-sv">Direktförsäljning</p>
+      <p class="pillar-title lang-en">Direct sales</p>
+      <p class="lang-fi">Ei välikäsiä. Ostat suoraan kasvattajalta, joka tuntee jokaisen eläimen ja jokaisen taimierän.</p>
+      <p class="lang-sv">Inga mellanhänder. Du köper direkt från odlaren som känner varje djur och varje omgång plantor.</p>
+      <p class="lang-en">No middlemen. You buy directly from the farmer who knows every animal and every batch of seedlings.</p>
+      <span class="pillar-badge lang-fi">Tilalta suoraan</span>
+      <span class="pillar-badge lang-sv">Direkt från gård</span>
+      <span class="pillar-badge lang-en">Farm direct</span>
+    </div>
+    <div class="pillar">
+      <p class="pillar-title">Oivallinen</p>
+      <p class="lang-fi">Elintarvikevalvonnan tarkastus on antanut tilallemme korkeimman mahdollisen arvioinnin: Oivallinen. Toimintamme täyttaa kaikki elintarviketurvallisuuden vaatimukset.</p>
+      <p class="lang-sv">Livsmedelstillsynens inspektion har gett oss det högsta möjliga betyget: Oivallinen. Vår verksamhet uppfyller alla livsmedelssäkerhetskrav.</p>
+      <p class="lang-en">The food safety authority has given our farm the highest possible rating: Oivallinen (Excellent). Our operations meet all food safety requirements.</p>
+      <span class="pillar-badge lang-fi">Tarkastettu 17.6.2021</span>
+      <span class="pillar-badge lang-sv">Granskad 17.6.2021</span>
+      <span class="pillar-badge lang-en">Inspected 17.6.2021</span>
+    </div>
+    <div class="pillar">
+      <p class="pillar-title lang-fi">Tuore tai pakastettu</p>
+      <p class="pillar-title lang-sv">Färsk eller fryst</p>
+      <p class="pillar-title lang-en">Fresh or frozen</p>
+      <p class="lang-fi">Oma tuotanto mahdollistaa molemmat. Tilaa tuoreena heti teurastuksen jälkeen tai pakastettuna omaan aikatauluusi.</p>
+      <p class="lang-sv">Vår egen produktion möjliggör båda alternativen. Beställ färskt direkt efter slakt, eller fryst enligt ditt eget schema.</p>
+      <p class="lang-en">Our own production makes both options possible. Order fresh right after slaughter, or frozen on your own schedule.</p>
+      <span class="pillar-badge lang-fi">Tilauksen mukaan</span>
+      <span class="pillar-badge lang-sv">Enligt beställning</span>
+      <span class="pillar-badge lang-en">To order</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     GALLERY
+============================== -->
+<section class="gallery" aria-label="Galleria">
+  <div class="gallery-strip">
+    <div><img src="images/gallery1.jpg" alt="Salakanrannan tila" loading="lazy" /></div>
+    <div><img src="images/gallery2.jpg" alt="Kaninliha" loading="lazy" /></div>
+    <div><img src="images/gallery3.jpg" alt="Salakanrannan tila tuotteet" loading="lazy" /></div>
+  </div>
+</section>
+
+<!-- ==============================
+     CONTACT
+============================== -->
+<section id="yhteystiedot">
+  <p class="sec-label lang-fi">Yhteystiedot</p>
+  <p class="sec-label lang-sv">Kontakt</p>
+  <p class="sec-label lang-en">Contact</p>
+  <h2 class="lang-fi">Ota yhteyttä</h2>
+  <h2 class="lang-sv">Ta kontakt</h2>
+  <h2 class="lang-en">Get in touch</h2>
+
+  <div class="contact-wrap fade">
+    <div class="contact-details">
+      <div>
+        <p class="c-label lang-fi">Puhelin</p>
+        <p class="c-label lang-sv">Telefon</p>
+        <p class="c-label lang-en">Phone</p>
+        <p class="c-val"><a href="tel:+358504309337">+358 50 430 9337</a></p>
+      </div>
+      <div>
+        <p class="c-label lang-fi">Sähköposti</p>
+        <p class="c-label lang-sv">E-post</p>
+        <p class="c-label lang-en">Email</p>
+        <p class="c-val"><a href="mailto:salakanrannan.tila@gmail.com">salakanrannan.tila@gmail.com</a></p>
+      </div>
+      <div>
+        <p class="c-label lang-fi">Osoite</p>
+        <p class="c-label lang-sv">Adress</p>
+        <p class="c-label lang-en">Address</p>
+        <p class="c-val">Salakantie 160<br />56440 Pohja-Lankila<br /><span class="lang-fi">Ruokolahti</span><span class="lang-sv">Ruokolax</span><span class="lang-en">Ruokolahti</span></p>
+      </div>
+      <div>
+        <p class="c-label lang-fi">Sosiaalinen media</p>
+        <p class="c-label lang-sv">Sociala medier</p>
+        <p class="c-label lang-en">Social media</p>
+        <p class="c-val"><a href="https://www.facebook.com/salakanrannantila" target="_blank" rel="noopener">Facebook</a></p>
+      </div>
+      <a href="tel:+358504309337" class="call-btn">
+        <span class="lang-fi">Soita ja tilaa &nbsp;&rarr;</span>
+        <span class="lang-sv">Ring och beställ &nbsp;&rarr;</span>
+        <span class="lang-en">Call and order &nbsp;&rarr;</span>
+      </a>
+    </div>
+    <div class="contact-map">
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=28.62,61.27,28.82,61.37&layer=mapnik&marker=61.318,28.720"
+        title="Salakanrannan tila sijainti"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FOOTER
+============================== -->
+<footer>
+  <div>
+    <p class="footer-name">Salakanrannan tila</p>
+    <p class="footer-sub lang-fi">Ruokolahti &middot; Etelä-Karjala &middot; +358 50 430 9337</p>
+    <p class="footer-sub lang-sv">Ruokolax &middot; Södra Karelen &middot; +358 50 430 9337</p>
+    <p class="footer-sub lang-en">Ruokolahti &middot; South Karelia &middot; +358 50 430 9337</p>
+  </div>
+  <p class="footer-meta">
+    <span class="lang-fi">Demo &middot; Suunniteltu Anton Jalosenin toimesta<br />Julkaisematon esittelysivu &middot; <a href="mailto:jalonenanton@gmail.com">jalonenanton@gmail.com</a></span>
+    <span class="lang-sv">Demo &middot; Designad av Anton Jalonen<br />Opublicerad demonstrationssida &middot; <a href="mailto:jalonenanton@gmail.com">jalonenanton@gmail.com</a></span>
+    <span class="lang-en">Demo &middot; Designed by Anton Jalonen<br />Unpublished demonstration page &middot; <a href="mailto:jalonenanton@gmail.com">jalonenanton@gmail.com</a></span>
+  </p>
+</footer>
+
+<!-- ==============================
+     JS
+============================== -->
+<script>
+  // I18N
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    localStorage.setItem('pref_lang', lang);
+    ['fi','sv','en'].forEach(function(l) {
+      var vn = document.getElementById('vn-' + l);
+      var mb = document.getElementById('mob-' + l);
+      if (vn) vn.classList.toggle('active', l === lang);
+      if (mb) mb.classList.toggle('active', l === lang);
+    });
+  }
+  (function() {
+    var s = localStorage.getItem('pref_lang');
+    if (s && ['fi','sv','en'].indexOf(s) !== -1) setLang(s);
+  })();
+
+  // Mobile overlay
+  function openMob() {
+    document.getElementById('mob-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMob() {
+    document.getElementById('mob-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Scroll fade-in
+  (function() {
+    var els = document.querySelectorAll('.fade');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el) { el.classList.add('in'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(function(el) { obs.observe(el); });
+  })();
+</script>
+</body>
+</html>
